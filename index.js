@@ -4,6 +4,7 @@ const articles = [{ title: 'Example'}];
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
 const { Article } = require('./models/Article');
+const read = require('node-readability')
 
 // Supports request bodies encoded as JSON
 app.use(bodyParser.json());
@@ -42,14 +43,16 @@ app.get('/articles', (req, res, err) => {
     involved somewhere in the server-side software.
 */
 app.post('/articles',(req,res,next) => {
-    const article = {
-        title: req.body.title, 
-        content: req.body.content
-    };
-    Article.create(article,(err, result) =>{
-        if (err) return res.send(err);
-        res.send(article);
-    })
+    const url = req.body.url;
+    read(url,(err,result) => {
+        if(err || !result) res.status(500).send('Error downloading the article');
+        const article = {title: result.title, content: result.content};
+        Article.create(article,(err, result) =>{
+            if (err) return res.send(err);
+            res.send('OK');
+        });
+    });
+
 });
 
 
