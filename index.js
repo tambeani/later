@@ -3,6 +3,7 @@ const app = express();
 const articles = [{ title: 'Example'}];
 const port = process.env.PORT || 3000;
 const bodyParser = require('body-parser');
+const { Article } = require('./models/Article');
 
 // Supports request bodies encoded as JSON
 app.use(bodyParser.json());
@@ -10,12 +11,21 @@ app.use(bodyParser.json());
 // Supports form-encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));
 
-app.get('/',(req,res) => {
+app.get('/health',(req,res) => {
     res.send('Hello World!');
 });
 
-app.get('/articles',(req,res) => {
-    res.send(articles);
+/*
+    Setting up a route handler
+    app.get() - route handler
+    /articles - endpoint\
+    (req,res,err) - route handler function
+*/
+app.get('/articles', (req, res, err) => {
+    Article.all((err,articles) => {
+      if (err) return res.send(err);
+      res.send(articles);
+    });
 });
 
 // Need for body-parser
@@ -32,22 +42,34 @@ app.get('/articles',(req,res) => {
     involved somewhere in the server-side software.
 */
 app.post('/articles',(req,res,next) => {
-    const article = {title: req.body.title};
-    articles.push(article);
-    res.send(article);
+    const article = {
+        title: req.body.title, 
+        content: req.body.content
+    };
+    Article.create(article,(err, result) =>{
+        if (err) return res.send(err);
+        res.send(article);
+    })
 });
+
 
 app.get('/articles/:id',(req,res,next) => {
     const id = req.params.id;
     console.log('Fetching:',id);
-    res.send(articles[id]);
+    Article.find(id,(err, result) =>{
+        if (err) return res.send(err);
+        res.send(result);
+    })
 });
 
 app.delete('/articles/:id',(req,res,next) => {
     const id = req.params.id;
     console.log('Deleting:',id);
-    delete articles[id];
-    res.send({ message: 'Deleted'});
+    Article.delete(id,(err)=>{
+        if(err) return res.send(err);
+        res.send({ message: 'Deleted'});
+    });
+    
 });
 
 app.listen(port,() => {
