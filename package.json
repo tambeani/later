@@ -1,0 +1,23 @@
+{
+  "name": "later",
+  "version": "1.0.0",
+  "description": "To build a web application called later that’s inspired by popular read-it-later websites",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tambeani/later.git"
+  },
+  "author": "aniruddha",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tambeani/later/issues"
+  },
+  "homepage": "https://github.com/tambeani/later#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
