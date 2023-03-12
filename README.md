@@ -12,3 +12,10 @@ RESTful routes:
 - GET /articles/:id—Get a single article
 - GET /articles—Get all articles
 - DELETE /articles/:id—Delete an article
+
+Steps:
+
+1. Clone this repository
+2. Navigate to repository in local
+3. Run npm install
+4. Run npm start

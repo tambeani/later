@@ -14,15 +14,13 @@
 
 <body>
     <div class="container">
-        <ul>
-            <% result.forEach((article) => { %>
-            <li>
-                <a href="/articles/<%= article.id %>">
-                    <%- article.content %>
-                </a>
-            </li>
-            <% }) %>
-        </ul>
+        <% result.forEach((article) => { %>
+        <li>
+            <a href="/articles/<%= article.id %>">
+                <%- article.content %>
+            </a>
+        </li>
+        <% }) %>
     </div>
 </body>
 
