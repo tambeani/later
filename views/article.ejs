@@ -1,0 +1,29 @@
+<!-- 
+    In order to render HTML output of the formatted
+    we use a template engine, to output that content
+    to a view. We are using embedded javascript for
+    this.
+-->
+
+<html>
+
+<head>
+    <title>Later</title>
+    <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+
+<body>
+    <div class="container">
+        <ul>
+            <% result.forEach((article) => { %>
+            <li>
+                <a href="/articles/<%= article.id %>">
+                    <%- article.content %>
+                </a>
+            </li>
+            <% }) %>
+        </ul>
+    </div>
+</body>
+
+</html>
