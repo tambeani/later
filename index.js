@@ -6,11 +6,18 @@ const bodyParser = require('body-parser');
 const { Article } = require('./models/Article');
 const read = require('node-readability')
 
+
 // Supports request bodies encoded as JSON
 app.use(bodyParser.json());
 
 // Supports form-encoded bodies
 app.use(bodyParser.urlencoded({extended: true}));
+
+// Load Bootstrap’s CSS
+app.use(
+    '/css/bootstrap.css',
+    express.static('node_modules/bootstrap/dist/css/bootstrap.css')
+  );
 
 app.get('/health',(req,res) => {
     res.send('Hello World!');
@@ -22,10 +29,11 @@ app.get('/health',(req,res) => {
     /articles - endpoint\
     (req,res,err) - route handler function
 */
+
 app.get('/articles', (req, res, err) => {
-    Article.all((err,articles) => {
-      if (err) return res.send(err);
-      res.send(articles);
+    Article.all((err, articles) =>{
+        if (err) return res.send(err);
+        res.send(articles);
     });
 });
 
@@ -61,7 +69,14 @@ app.get('/articles/:id',(req,res,next) => {
     console.log('Fetching:',id);
     Article.find(id,(err, result) =>{
         if (err) return res.send(err);
-        res.send(result);
+        res.format({
+            html: () => {
+              res.render('article.ejs', { result });
+            },
+            json: () => {
+              res.send(result);
+            }
+          });
     })
 });
 
