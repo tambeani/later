@@ -8,7 +8,7 @@ The read-it-later page on the left has stripped away all of the navigation from 
 
 RESTful routes:
 
-POST /articles—Create a new article
-GET /articles/:id—Get a single article
-GET /articles—Get all articles
-DELETE /articles/:id—Delete an article
+- POST /articles—Create a new article
+- GET /articles/:id—Get a single article
+- GET /articles—Get all articles
+- DELETE /articles/:id—Delete an article
